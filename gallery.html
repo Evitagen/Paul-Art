@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gallery — Paul Bellingham</title>
+<link rel="stylesheet" href="css/site.css">
+  <script src="js/site.js"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="site-name" href="index.html">Paul Bellingham</a>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="gallery.html" class="active">Gallery</a>
+        <a href="bio.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="wrap">
+      <div class="section-tabs">
+        <button class="section-btn active" type="button" data-target="all">All</button>
+        <button class="section-btn" type="button" data-target="uni">University Work</button>
+        <button class="section-btn" type="button" data-target="heads">Heads</button>
+        <button class="section-btn" type="button" data-target="abstract">Abstract</button>
+        <button class="section-btn" type="button" data-target="other">Other</button>
+      </div>
+      <section class="gallery-section" data-section="uni">
+        <div class="section-head">
+          <span class="num">01</span>
+          <h2>University Work</h2>
+        </div>
+    <div class="grid">
+      <figure class="painting" role="button" tabindex="0" aria-label="Open 20260226 133912">
+        <img src="paintings-web/01-20260226-133912.jpg" alt="20260226 133912" loading="lazy">
+        <figcaption>
+          <div class="p-title">20260226 133912</div>
+        </figcaption>
+      </figure>
+      <figure class="painting" role="button" tabindex="0" aria-label="Open 20260813 144014">
+        <img src="paintings-web/04-20260813-144014.jpg" alt="20260813 144014" loading="lazy">
+        <figcaption>
+          <div class="p-title">20260813 144014</div>
+        </figcaption>
+      </figure>
+      <figure class="painting" role="button" tabindex="0" aria-label="Open 20260813 144126">
+        <img src="paintings-web/08-20260813-144126.jpg" alt="20260813 144126" loading="lazy">
+        <figcaption>
+          <div class="p-title">20260813 144126</div>
+        </figcaption>
+      </figure>
+    </div>
+      </section>
+
+      <section class="gallery-section" data-section="heads">
+        <div class="section-head">
+          <span class="num">02</span>
+          <h2>Heads</h2>
+        </div>
+    <div class="grid">
+      <figure class="painting" role="button" tabindex="0" aria-label="Open 20260226 134008">
+        <img src="paintings-web/02-20260226-134008.jpg" alt="20260226 134008" loading="lazy">
+        <figcaption>
+          <div class="p-title">20260226 134008</div>
+        </figcaption>
+      </figure>
+      <figure class="painting" role="button" tabindex="0" aria-label="Open Helter Skelter">
+        <img src="paintings-web/03-helter-skelter.jpg" alt="Helter Skelter" loading="lazy">
+        <figcaption>
+          <div class="p-title">Helter Skelter</div>
+        </figcaption>
+      </figure>
+      <figure class="painting" role="button" tabindex="0" aria-label="Open Blue In Green">
+        <img src="paintings-web/05-blue-in-green.jpg" alt="Blue In Green" loading="lazy">
+        <figcaption>
+          <div class="p-title">Blue In Green</div>
+        </figcaption>
+      </figure>
+    </div>
+      </section>
+
+      <section class="gallery-section" data-section="abstract">
+        <div class="section-head">
+          <span class="num">03</span>
+          <h2>Abstract</h2>
+        </div>
+    <div class="grid">
+      <figure class="painting" role="button" tabindex="0" aria-label="Open Cosmic Theory">
+        <img src="paintings-web/06-cosmic-theory.jpg" alt="Cosmic Theory" loading="lazy">
+        <figcaption>
+          <div class="p-title">Cosmic Theory</div>
+        </figcaption>
+      </figure>
+      <figure class="painting" role="button" tabindex="0" aria-label="Open 20260813 144108">
+        <img src="paintings-web/07-20260813-144108.jpg" alt="20260813 144108" loading="lazy">
+        <figcaption>
+          <div class="p-title">20260813 144108</div>
+        </figcaption>
+      </figure>
+    </div>
+      </section>
+
+      <section class="gallery-section" data-section="other">
+        <div class="section-head">
+          <span class="num">04</span>
+          <h2>Other</h2>
+        </div>
+    <p class="section-note">No works in this section yet.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>&copy; 2026 Paul Bellingham</span>
+      <span>8 paintings &middot; Generated 2026-10-28</span>
+    </div>
+  </footer>
+  <div id="lightbox" role="dialog" aria-modal="true" aria-label="Painting viewer">
+    <button class="lb-btn" id="lb-close" type="button" aria-label="Close viewer">&times;</button>
+    <button class="lb-btn" id="lb-zoom" type="button" aria-label="Tour the painting in detail" title="Tour the painting in detail">&#10530;</button>
+    <button class="lb-btn" id="lb-prev" type="button" aria-label="Previous painting">&#8249;</button>
+    <img id="lb-img" alt="">
+    <button class="lb-btn" id="lb-next" type="button" aria-label="Next painting">&#8250;</button>
+    <div class="lb-caption" id="lb-caption"></div>
+  </div>
+</body>
+</html>

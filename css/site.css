@@ -147,6 +147,13 @@ main { padding-bottom: 20px; }
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 64px 44px;
 }
+/* Home page: every card image sits in an identical 3:4 frame, so all
+   images are exactly the same height regardless of photo orientation. */
+.grid-home .painting img {
+  aspect-ratio: 3 / 4;
+  height: auto;
+  object-fit: cover;
+}
 .painting { cursor: pointer; outline: none; }
 .painting img {
   display: block;

@@ -162,6 +162,11 @@ main { padding-bottom: 20px; }
   transition: opacity 0.35s ease;
 }
 .painting:hover img, .painting:focus-visible img { opacity: 0.82; }
+/* Gallery: portrait paintings share one identical frame height. */
+.grid:not(.grid-home) .painting.portrait img {
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
 .painting figcaption { margin-top: 12px; }
 .p-title {
   font-size: 14.5px;

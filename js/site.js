@@ -216,6 +216,20 @@
     });
   }
 
+    /* Gallery cards: give portrait photos an identical 3:4 frame so every
+       portrait painting reads the same height regardless of its own ratio
+       (landscape photos keep their natural proportions). */
+    document.querySelectorAll('.grid:not(.grid-home) figure.painting').forEach(function (fig) {
+      var img = fig.querySelector('img');
+      if (!img) return;
+      var mark = function () {
+        if (img.naturalWidth && img.naturalHeight && img.naturalHeight > img.naturalWidth * 1.02) {
+          fig.classList.add('portrait');
+        }
+      };
+      if (img.complete) mark(); else img.addEventListener('load', mark);
+    });
+
   } /* end init */
 
   /* the script lives in <head> — wait for the page to exist */

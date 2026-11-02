@@ -288,6 +288,20 @@ main { padding-bottom: 20px; }
   color: var(--ink-soft);
 }
 .direct a { color: var(--ink); }
+/* WhatsApp button: a static wa.me link — works on GitHub Pages (no server) */
+.direct a.btn-wa {
+  display: inline-block;
+  background: #128C7E;
+  color: #fff;
+  border: 1px solid #128C7E;
+  font-size: 12.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 14px 34px;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+.direct a.btn-wa:hover { opacity: 0.8; }
 
 /* ---------- footer ---------- */
 

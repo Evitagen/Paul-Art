@@ -53,7 +53,7 @@
     var touring = false;
     var tourTimer = null;
     var lastPt = { x: 0, y: 0 };
-    var tourGeom = { s: 1.5, maxX: 15, maxY: 15 };
+    var tourGeom = { s: 1.8, maxX: 15, maxY: 15 };
 
     // Orientation-aware tour geometry:
     //  - portrait photos drift up/down only (zoom raised just enough to
@@ -71,11 +71,11 @@
         return Math.max(0, (s * fit - c) / (2 * s * fit) * 100);
       }
       if (portrait) {
-        s = Math.min(Math.max(1.5, (ch / fitH) * 1.35), 2.2);
+        s = Math.min(Math.max(1.8, (ch / fitH) * 1.45), 2.6);
         maxX = 0;
         maxY = range(fitH, ch);
       } else {
-        s = 1.5;
+        s = 1.8;
         maxX = range(fitW, cw);
         maxY = range(fitH, ch);
       }

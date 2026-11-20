@@ -389,3 +389,34 @@ main { padding-bottom: 20px; }
   #lb-next { right: 8px; }
   .site-footer .wrap { justify-content: center; text-align: center; }
 }
+
+/* ---------- zoom affordances ----------
+   Cards invite the click; the viewer reacts to the pointer; a small
+   hint introduces double-tap / pinch / drag the first time it opens. */
+.painting { overflow: hidden; }
+.painting img {
+  cursor: zoom-in;
+  transition: opacity 0.35s ease, transform 0.5s ease;
+}
+.painting:hover img { transform: scale(1.045); }
+#lb-img { cursor: zoom-in; touch-action: none; }
+.lightbox.zoomed #lb-img { cursor: grab; }
+.lightbox.zoomed.grabbing #lb-img { cursor: grabbing; }
+.lb-hint {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 88px;
+  max-width: 86%;
+  text-align: center;
+  background: rgba(18, 18, 18, 0.72);
+  color: #fff;
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+  padding: 9px 16px;
+  border-radius: 999px;
+  opacity: 0;
+  transition: opacity 0.7s ease;
+  pointer-events: none;
+}
+.lb-hint.show { opacity: 1; }

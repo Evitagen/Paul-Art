@@ -147,6 +147,21 @@ main { padding-bottom: 20px; }
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 64px 44px;
 }
+/* Special load effect (max 3, chosen in the app's "zoom effect" tickbox):
+   the picked home paintings zoom in briefly when the home page loads,
+   staggered by --zd. Runs once, then the page is perfectly still. */
+.grid-home .painting.zoom-fx img {
+  animation: homeZoomIn 1.2s cubic-bezier(0.2, 0.7, 0.25, 1) both;
+  animation-delay: calc(var(--zd, 0) * 0.22s);
+}
+@keyframes homeZoomIn {
+  from { transform: scale(1.18); }
+  to   { transform: scale(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .grid-home .painting.zoom-fx img { animation: none; }
+}
+
 /* Home page: every card image sits in an identical 3:4 frame, so all
    images are exactly the same height regardless of photo orientation. */
 .grid-home .painting img {

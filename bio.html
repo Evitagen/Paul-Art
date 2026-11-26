@@ -487,17 +487,21 @@ main { padding-bottom: 20px; }
     var zoomBtn = document.getElementById('lb-zoom');
     var touring = false;
     var tourTimer = null;
-    var lastPt = { x: 0, y: 0 };
     var tourGeom = { s: 2.2, maxX: 15, maxY: 15 };
+    var tourSeq = null;
+    var tourSeqI = 0;
 
-    // Orientation-aware tour geometry:
-    //  - portrait photos drift up/down only (zoom raised just enough to
-    //    cover the screen vertically, so no gaps appear)
-    //  - landscape photos keep the current gentle both-ways drift
-    // Pan ranges are always clamped so the photo never slides off-screen.
+    // Tour geometry: how deep to zoom and how far the photo may pan.
+    // Pan ranges are clamped exactly to the overflow, so +/- ranges put
+    // the view flush against the photo's edges - its four corners.
+    // Portrait photos zoom deep enough that when the zoomed width exceeds
+    // the screen they pan side to side as well.
     function computeTourGeom() {
-      var cw = lb.clientWidth;
-      var ch = lb.clientHeight;
+      // content box of the lightbox (viewport minus its padding) — that is
+      // the actual "screen" the photo is shown in
+      var cs = window.getComputedStyle(lb);
+      var cw = lb.clientWidth - (parseFloat(cs.paddingLeft) || 0) - (parseFloat(cs.paddingRight) || 0);
+      var ch = lb.clientHeight - (parseFloat(cs.paddingTop) || 0) - (parseFloat(cs.paddingBottom) || 0);
       var fitW = img.offsetWidth || cw;  // layout size (ignores transform)
       var fitH = img.offsetHeight || ch;
       var portrait = (img.naturalHeight || fitH) > (img.naturalWidth || fitW);
@@ -508,7 +512,7 @@ main { padding-bottom: 20px; }
       if (portrait) {
         // deeper than before: at least 2x, scaled to the screen, capped at 3x
         s = Math.min(Math.max(2.0, (ch / fitH) * 1.7), 3.0);
-        maxX = 0;
+        maxX = range(fitW, cw); // 0 automatically when no horizontal overflow
         maxY = range(fitH, ch);
       } else {
         s = 2.2;
@@ -521,16 +525,33 @@ main { padding-bottom: 20px; }
     function tourStep() {
       computeTourGeom(); // picks up new orientation after prev/next
       var g = tourGeom;
-      // pick a point on the opposite side of the last one so every move
-      // is a visible transition to a different part of the painting
-      var x = (Math.random() * 2 - 1) * g.maxX;
-      var y = (Math.random() * 2 - 1) * g.maxY;
-      if (g.maxX > 0 && Math.abs(x - lastPt.x) < g.maxX * 0.6) x = lastPt.x >= 0 ? -Math.random() * g.maxX : Math.random() * g.maxX;
-      if (g.maxY > 0 && Math.abs(y - lastPt.y) < g.maxY * 0.6) y = lastPt.y >= 0 ? -Math.random() * g.maxY : Math.random() * g.maxY;
-      lastPt = { x: x, y: y };
+      if (!tourSeq || tourSeqI >= tourSeq.length) { tourSeq = tourCorners(g); tourSeqI = 0; }
+      var p = tourSeq[tourSeqI++];
+      // slight jitter away from dead-centre on each move (never past the edge)
+      var x = p[0] === 0 ? 0 : p[0] * (0.93 + Math.random() * 0.07);
+      var y = p[1] === 0 ? 0 : p[1] * (0.93 + Math.random() * 0.07);
       img.style.opacity = '0.82'; // gentle fade as each move begins
       img.style.transform = 'scale(' + g.s + ') translate(' + x + '%, ' + y + '%)';
       setTimeout(function () { if (touring) img.style.opacity = '1'; }, 1200);
+    }
+
+    // The tour walks the photo's four corners (all corners when both axes
+    // overflow; top/bottom when only vertical). Each round the corner order
+    // is shuffled with a touch of jitter so it never feels mechanical.
+    function tourCorners(g) {
+      var pts = [[-g.maxX, -g.maxY], [g.maxX, -g.maxY], [g.maxX, g.maxY], [-g.maxX, g.maxY]];
+      var seen = {};
+      pts = pts.filter(function (p) {
+        var k = p[0].toFixed(2) + '|' + p[1].toFixed(2);
+        if (seen[k]) return false;
+        seen[k] = 1;
+        return true;
+      });
+      for (var i = pts.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = pts[i]; pts[i] = pts[j]; pts[j] = t;
+      }
+      return pts;
     }
 
     function setTour(on) {
@@ -545,7 +566,7 @@ main { padding-bottom: 20px; }
         zoomBtn.title = on ? 'Stop the detail tour' : 'Tour the painting in detail';
       }
       if (on) {
-        lastPt = { x: 0, y: 0 };
+        tourSeq = null; tourSeqI = 0;
         computeTourGeom();
         img.style.transition = 'transform 3.6s cubic-bezier(0.45, 0.05, 0.35, 1), opacity 1.5s ease';
         img.style.transformOrigin = '50% 50%';

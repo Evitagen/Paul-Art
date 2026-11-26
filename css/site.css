@@ -366,6 +366,7 @@ main { padding-bottom: 20px; }
 .lb-caption .p-dims { font-size: 12.5px; }
 .lb-btn {
   position: fixed;
+  z-index: 3; /* stays tappable above the zoomed/touring image */
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -405,8 +406,11 @@ main { padding-bottom: 20px; }
 #lb-prev { left: 22px; top: 50%; transform: translateY(-50%); padding: 0 0 3px 2px; }
 #lb-next { right: 22px; top: 50%; transform: translateY(-50%); padding: 0 0 3px 2px; }
 
-/* detail tour: the image gently zooms and drifts inside the frame */
+/* detail tour: the image gently zooms and drifts inside the frame.
+   While touring, the prev/next arrows are hidden — browse only after
+   zooming back out (the zoom pill and the X stay available). */
 #lightbox.touring { overflow: hidden; }
+#lightbox.touring #lb-prev, #lightbox.touring #lb-next { display: none; }
 
 /* ---------- responsive ---------- */
 

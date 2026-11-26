@@ -413,7 +413,9 @@ main { padding-bottom: 20px; }
 #lb-prev { left: 22px; top: 50%; transform: translateY(-50%); padding: 0 0 3px 2px; }
 #lb-next { right: 22px; top: 50%; transform: translateY(-50%); padding: 0 0 3px 2px; }
 
-/* detail tour: the image gently zooms and drifts inside the frame */
+/* detail tour: the image gently zooms and drifts inside the frame.
+   While touring, the prev/next arrows are hidden — browse only after
+   zooming back out (the zoom pill and the X stay available). */
 #lightbox.touring { overflow: hidden; }
 #lightbox.touring #lb-prev, #lightbox.touring #lb-next { display: none; }
 
@@ -494,7 +496,7 @@ main { padding-bottom: 20px; }
 
     // Tour geometry: how deep to zoom and how far the photo may pan.
     // Pan ranges are clamped exactly to the overflow, so +/- ranges put
-    // the view flush against the photo's edges - its four corners.
+    // the view flush against the photo's edges — i.e. its four corners.
     // Portrait photos zoom deep enough that when the zoomed width exceeds
     // the screen they pan side to side as well.
     function computeTourGeom() {
@@ -523,19 +525,6 @@ main { padding-bottom: 20px; }
       tourGeom = { s: s, maxX: maxX, maxY: maxY };
     }
 
-    function tourStep() {
-      computeTourGeom(); // picks up new orientation after prev/next
-      var g = tourGeom;
-      if (!tourSeq || tourSeqI >= tourSeq.length) { tourSeq = tourCorners(g); tourSeqI = 0; }
-      var p = tourSeq[tourSeqI++];
-      // slight jitter away from dead-centre on each move (never past the edge)
-      var x = p[0] === 0 ? 0 : p[0] * (0.93 + Math.random() * 0.07);
-      var y = p[1] === 0 ? 0 : p[1] * (0.93 + Math.random() * 0.07);
-      img.style.opacity = '0.82'; // gentle fade as each move begins
-      img.style.transform = 'scale(' + g.s + ') translate(' + x + '%, ' + y + '%)';
-      setTimeout(function () { if (touring) img.style.opacity = '1'; }, 1200);
-    }
-
     // The tour walks the photo's four corners (all corners when both axes
     // overflow; top/bottom when only vertical). Each round the corner order
     // is shuffled with a touch of jitter so it never feels mechanical.
@@ -553,6 +542,19 @@ main { padding-bottom: 20px; }
         var t = pts[i]; pts[i] = pts[j]; pts[j] = t;
       }
       return pts;
+    }
+
+    function tourStep() {
+      computeTourGeom(); // picks up new orientation after prev/next
+      var g = tourGeom;
+      if (!tourSeq || tourSeqI >= tourSeq.length) { tourSeq = tourCorners(g); tourSeqI = 0; }
+      var p = tourSeq[tourSeqI++];
+      // slight jitter away from dead-centre on each move (never past the edge)
+      var x = p[0] === 0 ? 0 : p[0] * (0.93 + Math.random() * 0.07);
+      var y = p[1] === 0 ? 0 : p[1] * (0.93 + Math.random() * 0.07);
+      img.style.opacity = '0.82'; // gentle fade as each move begins
+      img.style.transform = 'scale(' + g.s + ') translate(' + x + '%, ' + y + '%)';
+      setTimeout(function () { if (touring) img.style.opacity = '1'; }, 1200);
     }
 
     function setTour(on) {
